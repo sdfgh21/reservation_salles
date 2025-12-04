@@ -1,6 +1,6 @@
 <?php
 session_start();
-require 'db.php';
+require_once __DIR__ . '/../config/db.php';
 
 // récupérer salles pour le select
 $stmt = $pdo->query("SELECT * FROM rooms ORDER BY name");
