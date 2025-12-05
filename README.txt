@@ -1,83 +1,89 @@
+📘 Reservation System
 
+---
 
- 📘 Système de Réservation
+## 📝 Project Overview
 
- 📝 Description
+This repository contains a comprehensive **room reservation system** application. It enables users to book rooms, manage time slots, and handle reservations with ease and security. The system is designed for simplicity and efficiency, ensuring both end-users and administrators have a seamless experience.
 
-Ce projet est une application de **réservation** permettant aux utilisateurs de réserver un service de salle .
-Elle inclut la gestion des utilisateurs, des disponibilités, des créneaux, ainsi que la validation des réservations.
+---
 
+## ✨ Features
 
+- 📅 **Flexible Reservation Scheduling:** Book, update, and cancel room reservations with real-time availability.
+- 👤 **User Account Management:** Register new users, login/logout, and manage user profiles.
+- 🔒 **Authentication & Security:** Secure login system to protect user data and sessions.
+- 🗂️ **Reservation Dashboard:** A personal overview for users to track their bookings.
+- 🔔 **Notifications & Confirmations:** Instant alerts and confirmation emails for every reservation action.
+- ⚙️ **Admin Interface:** Admin panel to create, edit, or remove available time slots and manage reservations.
+- 📊 **Booking History:** View a complete history of past and upcoming reservations.
+- 🛡️ **Robust & Secure:** Built with security, data integrity, and performance in mind.
 
+---
 
-✨ Fonctionnalités principales
+## 🛠️ Technologies Used
 
-* 📅 Gestion des créneaux de réservation
-* 👤 Création de compte utilisateur
-* 🔐 Authentification (login / logout)
-* 🗂️ Tableau de bord des réservations
-* 🔔 Notifications / confirmations
-* ⚙️ Interface d’administration (ajout / suppression / modification des créneaux)
-* 📊 Historique des réservations
-* 🛠️ Système sécurisé et optimisé
-
-
-
-🛠️ Technologies utilisées
-
-(Adaptables selon ce que tu utilises)
-
-* **Backend :** PHP / 
-* **Frontend :** HTML, CSS, JavaScript
-* **Base de données :** MySQL 
-* **Outils :** Git, GitHub
+- **Backend:** PHP
+- **Frontend:** HTML, CSS, JavaScript
+- **Database:** MySQL 
+- **Version Control:** Git, GitHub
 
 ---
 
 ## 📦 Installation
 
-```bash
-# 1. Cloner le projet
-git clone https://github.com/ton-compte/ProjetReservation.git
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/sdfgh21/reservation_salles.git
+   cd reservation_salles
+   ```
 
-# 2. Accéder au dossier
-cd reservation_salles
+2. **Set up dependencies:**
+   - If using Node.js (example for frontend tooling):
+     ```bash
+     npm install
+     ```
+   - For PHP, ensure you have [Composer](https://getcomposer.org/) if needed for dependencies.
+   - Configure your web server (Apache, Nginx, or use `php -S localhost:8000` for local development).
 
+3. **Configure your database:**
+   - Create a `reservation_salles` database in MySQL.
+   - Import the provided SQL schema (if available).
+   - Update connection settings in your PHP configuration files.
 
-# 3. Installer les dépendances (exemple pour Node.js)
-npm install
-```
-
----
-
-## ▶️ Utilisation
-
-```bash
-# Lancer l'application (exemple)
-npm start 
-# ou php -S localhost:8000
-```
-
-Ensuite, ouvre ton navigateur sur :
-
----
-laragone : (https://laragon.org/)
----
-
-
-
-## 👨‍💻 Auteur
-
-* **Rayyan Gueddari** – Développeur 
-* GitHub : [https://github.com/sdfgh21](https://github.com/sdfgh21)
-* Email : [grayyan2006@gmail.com](grayyan2006@gmail.com)
+4. **(Optional) Using [Laragon](https://laragon.org/):**
+   - Laragon is recommended for local PHP development (includes Apache, MySQL, PHP).
+   - Import the project folder and start services from Laragon.
 
 ---
 
-## 📄 Licence
+## ▶️ Usage
 
-Ce projet est sous licence **MIT**.
+1. **Start the application:**
+   ```bash
+   # For PHP built-in server
+   php -S localhost:8000
+
+   # Or via Node.js if applicable
+   npm start
+   ```
+
+2. **Access the app:**
+   - Open your browser and go to [http://localhost:8000](http://localhost:8000) or your configured domain.
 
 ---
 
+## 👤 Author
 
+**Rayyan Gueddari** – Developer
+
+- GitHub: [https://github.com/sdfgh21](https://github.com/sdfgh21)
+- Email: <grayyan2006@gmail.com>
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**. See the `LICENSE` file for further details.
+
+---
