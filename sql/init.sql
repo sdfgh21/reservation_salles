@@ -30,4 +30,9 @@ CREATE TABLE IF NOT EXISTS reservations (
   FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
 
+<<<<<<< HEAD
 
+=======
+-- données exemples
+INSERT INTO rooms (name) VALUES ('Salle A'),('Salle B'),('Amphi 1');
+>>>>>>> 5806ae326a49e5556054a2dd0d17f3f8f9a52abf
