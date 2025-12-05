@@ -17,3 +17,4 @@ try {
     echo "Erreur DB: " . $e->getMessage();
     exit;
 }
+?>

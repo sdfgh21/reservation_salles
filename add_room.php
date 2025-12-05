@@ -1,18 +1,15 @@
 <?php
 session_start();
 require 'db.php';
+require_once "csrf.php";
 
-// Vérifier connexion
-if (!isset($_SESSION['user'])) {
-    header("Location: login.php");
-    exit;
+// Admin only
+if (!isset($_SESSION['user']) || ($_SESSION['user']['role'] ?? null) !== 'admin') {
+    header("Location: login.php"); exit();
 }
+$message = "";
 
-$message = "=========hi==========";
-
-// =========================
-//   SUPPRESSION DE SALLE
-// =========================
+// Suppression
 if (isset($_GET['delete'])) {
     $id = intval($_GET['delete']);
     $stmt = $pdo->prepare("DELETE FROM rooms WHERE id = :id");
@@ -20,32 +17,29 @@ if (isset($_GET['delete'])) {
     $message = "Salle supprimée avec succès.";
 }
 
-// =========================
-//   AJOUT / MODIFICATION
-// =========================
+// Ajout / Modification
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $name = trim($_POST['name']);
-    $color = trim($_POST['color']);
-    $id = $_POST['id'] ?? '';
-
-    if ($name === "") {
-        $message = "Le nom de la salle est requis.";
+    if(!csrf_check($_POST['csrf_token'] ?? '')) {
+        $message = "Erreur de sécurité CSRF.";
     } else {
-        if ($id === "") {
-            // AJOUT
-            $stmt = $pdo->prepare("INSERT INTO rooms (name, color) VALUES (:n, :c)");
-            $stmt->execute(['n' => $name, 'c' => $color]);
-            $message = "Salle ajoutée avec succès.";
+        $name = trim($_POST['name']);
+        $color = trim($_POST['color']);
+        $id = $_POST['id'] ?? '';
+        if ($name === "") {
+            $message = "Le nom de la salle est requis.";
         } else {
-            // ÉDITION
-            $stmt = $pdo->prepare("UPDATE rooms SET name = :n, color = :c WHERE id = :id");
-            $stmt->execute(['n' => $name, 'c' => $color, 'id' => $id]);
-            $message = "Salle modifiée avec succès.";
+            if ($id === "") {
+                $stmt = $pdo->prepare("INSERT INTO rooms (name, color) VALUES (:n, :c)");
+                $stmt->execute(['n' => $name, 'c' => $color]);
+                $message = "Salle ajoutée avec succès.";
+            } else {
+                $stmt = $pdo->prepare("UPDATE rooms SET name = :n, color = :c WHERE id = :id");
+                $stmt->execute(['n' => $name, 'c' => $color, 'id' => $id]);
+                $message = "Salle modifiée avec succès.";
+            }
         }
     }
 }
-
-// Charger les salles
 $rooms = $pdo->query("SELECT * FROM rooms ORDER BY name")->fetchAll();
 ?>
 <!doctype html>
@@ -59,8 +53,6 @@ $rooms = $pdo->query("SELECT * FROM rooms ORDER BY name")->fetchAll();
 
 <body class="bg-light">
 <div class="container py-4">
-
-    <!-- HEADER -->
     <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="fw-bold"><i class="bi bi-door-open"></i> Gestion des salles</h2>
         <div>
@@ -68,53 +60,42 @@ $rooms = $pdo->query("SELECT * FROM rooms ORDER BY name")->fetchAll();
             <a href="logout.php" class="btn btn-danger"><i class="bi bi-box-arrow-right"></i> Déconnexion</a>
         </div>
     </div>
-
     <?php if ($message): ?>
         <div class="alert alert-info"><?= htmlspecialchars($message) ?></div>
     <?php endif; ?>
-
-    <!-- FORM: AJOUT / EDITION -->
     <div class="card shadow-sm mb-4">
         <div class="card-body">
             <h5 class="mb-3"><i class="bi bi-plus-circle"></i> Ajouter / Modifier une salle</h5>
             <form method="post" class="row g-3">
-
                 <input type="hidden" id="room_id" name="id">
-
+                <input type="hidden" name="csrf_token" value="<?=csrf_token()?>">
                 <div class="col-md-6">
                     <label class="form-label">Nom de la salle</label>
                     <input type="text" class="form-control" id="room_name" name="name" required>
                 </div>
-
                 <div class="col-md-4">
-                   
+                    <label class="form-label">Couleur (optionnelle)</label>
+                    <input type="color" class="form-control" name="color" value="#ffffff">
                 </div>
-
                 <div class="col-md-2 d-flex align-items-end">
                     <button class="btn btn-primary w-100">
                         <i class="bi bi-save"></i> Enregistrer
                     </button>
                 </div>
-
             </form>
         </div>
     </div>
-
-    <!-- LISTE DES SALLES -->
     <div class="card shadow-sm">
         <div class="card-body">
             <h5 class="mb-3"><i class="bi bi-list-ul"></i> Liste des salles</h5>
-
             <table class="table table-hover align-middle text-center">
                 <thead class="table-light">
                     <tr>
                         <th>ID</th>
                         <th>Nom</th>
-                        
                         <th>Actions</th>
                     </tr>
                 </thead>
-
                 <tbody>
                     <?php foreach ($rooms as $r): ?>
                         <tr>
@@ -125,8 +106,7 @@ $rooms = $pdo->query("SELECT * FROM rooms ORDER BY name")->fetchAll();
                                     onclick="editRoom(<?= $r['id'] ?>, '<?= htmlspecialchars($r['name']) ?>', '<?= $r['color'] ?>')">
                                     <i class="bi bi-pencil-square"></i> Modifier
                                 </button>
-
-                                <a href="add_room.php?delete=<?= $r['id'] ?>"
+                                <a href="add_room.php?delete=<?= $r['id'] }"
                                    class="btn btn-danger btn-sm"
                                    onclick="return confirm('Supprimer cette salle ?');">
                                     <i class="bi bi-trash"></i> Supprimer
@@ -135,21 +115,16 @@ $rooms = $pdo->query("SELECT * FROM rooms ORDER BY name")->fetchAll();
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
-
             </table>
         </div>
     </div>
-
 </div>
-
 <script>
-// Remplir le formulaire lorsque l'utilisateur clique sur "Modifier"
-function editRoom(id, name) {
+function editRoom(id, name, color) {
     document.getElementById("room_id").value = id;
     document.getElementById("room_name").value = name;
-
+    document.querySelector("input[name='color']").value = color;
 }
 </script>
-
 </body>
 </html>
