@@ -1,17 +1,16 @@
 
 
----
+ 📘 Système de Réservation
 
-# 📘 Système de Réservation
-
-## 📝 Description
+ 📝 Description
 
 Ce projet est une application de **réservation** permettant aux utilisateurs de réserver un service de salle .
 Elle inclut la gestion des utilisateurs, des disponibilités, des créneaux, ainsi que la validation des réservations.
 
----
 
-## ✨ Fonctionnalités principales
+
+
+✨ Fonctionnalités principales
 
 * 📅 Gestion des créneaux de réservation
 * 👤 Création de compte utilisateur
@@ -22,9 +21,9 @@ Elle inclut la gestion des utilisateurs, des disponibilités, des créneaux, ain
 * 📊 Historique des réservations
 * 🛠️ Système sécurisé et optimisé
 
----
 
-## 🛠️ Technologies utilisées
+
+🛠️ Technologies utilisées
 
 (Adaptables selon ce que tu utilises)
 
@@ -80,4 +79,5 @@ laragone : (https://laragon.org/)
 Ce projet est sous licence **MIT**.
 
 ---
+
 
