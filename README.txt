@@ -69,7 +69,7 @@ This repository contains a comprehensive **room reservation system** application
    ```
 
 2. **Access the app:**
-   - Open your browser and go to [http://localhost:8000](http://localhost:8000) or your configured domain.
+   - Open your browser and go to (http://localhost:8000) or your configured domain.
 
 ---
 
@@ -77,7 +77,7 @@ This repository contains a comprehensive **room reservation system** application
 
 **Rayyan Gueddari** – Developer
 
-- GitHub: [https://github.com/sdfgh21](https://github.com/sdfgh21)
+- GitHub: (https://github.com/sdfgh21)
 - Email: <grayyan2006@gmail.com>
 
 ---
